@@ -1,5 +1,7 @@
 <?php 
 error_reporting(E_ALL);
+include "dbjointableconnection.php";
+
   session_start();
 //if session started then load the html stuff else go back to the login screen
   if(isset($_SESSION['id']) && isset($_SESSION['fname'])) {
@@ -101,7 +103,6 @@ error_reporting(E_ALL);
         </div>
     </div>
     <!--this the end of the header-->
-
     <!-- Main -->
     <div id="main">
         <!-- Intro -->
@@ -112,7 +113,6 @@ error_reporting(E_ALL);
        <?php endif; ?></h1>
             </div>
             
-            <!--this card pulls the 1 parent from parent table and displays the first child id-->
             <!--this is start  nice card style div-->
         <div class="col-md-4">
         <div class="card">
@@ -120,11 +120,11 @@ error_reporting(E_ALL);
                 <?php //database connection
     include "dbjointableconnection.php";
     //select record from database
-    $query = "select
-    parentname, username, studentname, address
-from testmyownparent
-    join myownstudent on testmyownparent.childid = myownstudent.id
-order by studentname desc;";
+    $query = "select testmyownparent, myownstudent 
+    from testmyownparent
+    left join parentchild on parentchild.parentid = testmyownparent.id
+    left join myownstudent on myownstudent.id = parentchild.childid
+    ";
     $statement = $conn->prepare($query);
     $statement->execute();
     //write line to return number of records in database
@@ -149,9 +149,12 @@ order by studentname desc;";
         <div class='col-12'><p class='displaystarwarscolorcard'><span style='color: yellow'>child name:</span></p></div>
         <div><p><span style='color: white'>{$studentname}</span></p></div>
         <div class='col-12'><p class='displaystarwarscolorcard'><span style='color: yellow'>address:</span></p></div>
-        <div><p><span style='color: white'>{$address}</span></p></div>     
+        <div><p><span style='color: white'>{$address}</span></p></div>
+        
+        
         <a href='viewjoinedtables.php?id={$id}' class='btn ctaT'>View</a>
-        </div>        
+        </div>
+        
             ";
         }
     }else{
@@ -161,10 +164,10 @@ order by studentname desc;";
         </div>
     </p>
     </div><!--this is end  nice card style div-->
-                       
-           
+            
+            
+            
              <br>
-             <!--this card pulls information from  russian parent table and has the proper id of each parent showing in the view button.-->
     <!--this is start  nice card style div-->
         <div class="col-md-4">
         <div class="card">
@@ -214,7 +217,6 @@ order by parent_name desc";
     </p>
     </div><!--this is end  nice card style div-->
     
-    <!--this card displays the russion joined tables together fom parent, student, group room number etc.-->
     <!--this is start  nice card style div-->
         <div class="col-md-4">
         <div class="card">
@@ -261,7 +263,8 @@ order by student_name desc;";
         <div class='col-12'><p class='displaystarwarscolorcard'><span style='color: yellow'>room number:</span></p></div>
         <div><p><span style='color: white'>{$room_number}</span></p></div>
         <a href='viewjoinedtables.php?id={$id}' class='btn ctaT'>View</a>
-        </div>        
+        </div>
+        
             ";
         }
     }else{
@@ -271,7 +274,10 @@ order by student_name desc;";
         </div>
     </p>
     </div><!--this is end  nice card style div-->
-        
+    
+    
+    
+    
     <!-- Footer -->
     <div id="footer" class="educationelements">
         <!-- Copyright -->
