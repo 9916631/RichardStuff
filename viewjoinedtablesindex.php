@@ -120,10 +120,10 @@ include "dbjointableconnection.php";
                 <?php //database connection
     include "dbjointableconnection.php";
     //select record from database
-    $query = "select testmyownparent, myownstudent 
+    $query = "select testmyownparent.,myownstudent. 
     from testmyownparent
-    left join parentchild on parentchild.parentid = testmyownparent.id
-    left join myownstudent on myownstudent.id = parentchild.childid
+    left join myownstudent 
+    on myownstudent.parentchild = testmyownparent.id
     ";
     $statement = $conn->prepare($query);
     $statement->execute();
@@ -140,20 +140,14 @@ include "dbjointableconnection.php";
              <div class='collegecontainertestformyself1 collegesubcontainertestmyself'>
             <div class='col-12'><p class='displaystarwarscolorcard'><span style='color: yellow'>Parent name:</span></p></div>
             <div class='educationelements'>
-                  {$parentname} 
+                  {$id} 
             </div>
         <div class='row'>
-        <div class='col-12'><p class='displaystarwarscolorcard'><span style='color: yellow'>username:</span></p></div>
+        <div class='col-12'><p class='displaystarwarscolorcard'><span style='color: yellow'>work place:</span></p></div>
         </div>
-        <div><p><span style='color: white'>{$username}</span></p></div>
-        <div class='col-12'><p class='displaystarwarscolorcard'><span style='color: yellow'>child name:</span></p></div>
-        <div><p><span style='color: white'>{$studentname}</span></p></div>
-        <div class='col-12'><p class='displaystarwarscolorcard'><span style='color: yellow'>address:</span></p></div>
-        <div><p><span style='color: white'>{$address}</span></p></div>
-        
-        
+        <div><p><span style='color: white'>{$parentchild}</span></p></div>
         <a href='viewjoinedtables.php?id={$id}' class='btn ctaT'>View</a>
-        </div>
+        </div>        
         
             ";
         }
